@@ -1,2 +1,7 @@
 # Simple-Lemonade-Stand
-A simple lemonade stand game written in python
+Got bored in class, so i wrote a lemonade stand game in python.
+I've actually never worked with python before so this is my first time writing a real program in python
+
+It's still very rough but maybe i'll continue working on it in the future idk lmao
+
+[nilten.neocities.org](nilten.neocities.org)

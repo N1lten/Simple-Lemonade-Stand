@@ -4,4 +4,6 @@ I've actually never worked with python before so this is my first time writing a
 
 It's still very rough but maybe i'll continue working on it in the future idk lmao
 
+Written and tested with Python 3.11.2
+
 [nilten.neocities.org](nilten.neocities.org)

@@ -16,7 +16,7 @@ global player_spendings
 
 player_name = "Missingno."
 player_dayCount = 0
-player_money = 10 # player starts with 10 bucks
+player_money = 5 # player starts with 10 bucks
 player_spendings = 0
 
 global dayCycle_playerLemonade
@@ -45,7 +45,7 @@ def func_initPlayerVar():
 
     player_name = "N/A"
     player_dayCount = 0
-    player_money = 10
+    player_money = 5
     player_spendings = 0
 
 def func_initDayCycleVar():
@@ -164,7 +164,7 @@ def func_playerDefinePrice():
 
     print(f"{player_name}, how much money would you like to charge for your lemonade?")
     dayCycle_playerPrice = float(input())
-    if dayCycle_playerPrice >= 5.0:
+    if dayCycle_playerPrice >= 3.0:
         print(f"You decided to charge your lemonade for {dayCycle_playerPrice} buc- {dayCycle_playerPrice} BUCKS?! ...that's quite steep, don't you think?")
     else:
         print(f"You decided to charge your lemonade for {dayCycle_playerPrice} bucks!")
@@ -237,12 +237,14 @@ def func_calcDayResults():
     customerMultiplier = 0
     customers = 0
 
-    if dayCycle_playerPrice < 2:
+    if dayCycle_playerPrice <= 0.75:
         customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerLemonade/1.5), dayCycle_playerLemonade)
-    elif dayCycle_playerPrice <= 5:
+    elif dayCycle_playerPrice <= 2:
         customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerLemonade/3), dayCycle_playerLemonade)
+    elif dayCycle_playerPrice <= 5:
+        customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerLemonade/5), dayCycle_playerLemonade/2)
     else:
-        customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerLemonade/4), (dayCycle_playerLemonade/2.5))
+        customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerLemonade/6), (dayCycle_playerLemonade/4.5))
     
     int(dayCycle_playerLemonade)
 

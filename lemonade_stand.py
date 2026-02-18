@@ -6,277 +6,283 @@ import random
 import math
 
 # Global variables
-global sys_gameState
-sys_gameState = None
+global sys_state
+sys_state = None
 
 global player_name
 global player_dayCount
 global player_money
-global player_spendings
+global player_expenditures
 
 player_name = "Missingno."
 player_dayCount = 0
-player_money = 5 # player starts with 10 bucks
-player_spendings = 0
+player_money = 5                    # player starts with 10 bucks
+player_expenditures = 0
 
-global dayCycle_playerLemonade
-global dayCycle_playerSugar
-global dayCycle_playerAdverts
+global day_cycle_player_lemonade
+global day_cycle_player_sugar
+global day_cycle_playerAdverts
 
-dayCycle_playerLemonade = int(0)
-dayCycle_playerPrice = float(0)
-dayCycle_playerSugar = int(0)
-dayCycle_playerAdverts = int(0)
+day_cycle_player_lemonade = int(0)
+day_cycle_playerPrice = float(0)
+day_cycle_player_sugar = int(0)
+day_cycle_playerAdverts = int(0)
 
-global dayCycle_priceLemonade
-global dayCycle_priceSugar
-global dayCycle_priceAdverts
+global day_cycle_price_lemonade
+global day_cycle_price_sugar
+global day_cycle_priceAdverts
 
-dayCycle_priceLemonade = 0.05
-dayCycle_priceSugar = 0.08
-dayCycle_priceAdverts = 0.20
+day_cycle_price_lemonade = 0.05
+day_cycle_price_sugar = 0.08
+day_cycle_priceAdverts = 0.20
 
 
-def func_initPlayerVar():
+def init_player_var():
     global player_name
     global player_dayCount
     global player_money
-    global player_spendings
+    global player_expenditures
 
     player_name = "N/A"
     player_dayCount = 0
     player_money = 5
-    player_spendings = 0
+    player_expenditures = 0
 
-def func_initDayCycleVar():
-    global dayCycle_playerLemonade
-    global dayCycle_playerSugar
-    global dayCycle_playerAdverts
-    global player_spendings
 
-    dayCycle_playerLemonade = 0
-    dayCycle_playerSugar = 0
-    dayCycle_playerAdverts = 0
-    player_spendings
+def init_day_cycle():
+    global day_cycle_player_lemonade
+    global day_cycle_player_sugar
+    global day_cycle_playerAdverts
+    global player_expenditures
 
-def func_checkPlayerBrokeness(spendings): # love that name btw lmao
+    day_cycle_player_lemonade = 0
+    day_cycle_player_sugar = 0
+    day_cycle_playerAdverts = 0
+    player_expenditures = 0
+
+
+def check_player_brokeness(expenditures):            # love that name btw lmao
     global player_money
     global player_name
-    if spendings > math.floor(player_money * 100) / 100:
+    if expenditures > math.floor(player_money * 100) / 100:
         print(f"You don't have enough money to do that, {player_name}!")
 
-def func_gameState(gameState):
-    global sys_gameState
 
-    if gameState == "TitleScreen":
-        sys_gameState = "TitleScreen"
-        func_titleScreen()
-    elif gameState == "DayStart":
-        sys_gameState = "DayStart"
-        func_gameLoop()
-    elif gameState == "MakeLemonade":
-        sys_gameState = "MakeLemonade"
-    elif gameState == "AddSugar":
-        sys_gameState = "AddSugar"
-    elif gameState == "MakeAds":
-        sys_gameState = "MakeAds"
-    elif gameState == "GameQuit":
-        sys_gameState = "GameQuit"
+def game_state(state):
+    global sys_state
+
+    if state == "TitleScreen":
+        sys_state = "TitleScreen"
+        title_screen()
+    elif state == "DayStart":
+        sys_state = "DayStart"
+        game_loop()
+    elif state == "MakeLemonade":
+        sys_state = "MakeLemonade"
+    elif state == "AddSugar":
+        sys_state = "AddSugar"
+    elif state == "MakeAds":
+        sys_state = "MakeAds"
+    elif state == "GameQuit":
+        sys_state = "GameQuit"
         print("See ya!")
     else:
-        #print("Warning: No valid game state found !")
-        #print("Restarting game...")
-
         # init all global variables and restart on title screen
-        func_initPlayerVar()
-        func_initDayCycleVar()
-        sys_gameState = "TitleScreen"
-        func_titleScreen()
+        init_player_var()
+        init_day_cycle()
+        sys_state = "TitleScreen"
+        title_screen()
 
-def func_titleScreen():
+
+def title_screen():
     global player_name
     # init global variables on game start
-    func_initPlayerVar()
-    func_initDayCycleVar()
+    init_player_var()
+    init_day_cycle()
 
     print("Welcome to Lemonade Stand!")
     print("Please enter your name: ")
     player_name = str(input())
     print(f"Welcome, {player_name}!")
-    func_gameState("DayStart")
+    game_state("DayStart")
 
-def func_gameLoop():
+
+def game_loop():
     global player_dayCount
     global player_money
-    global player_spendings
-    func_initDayCycleVar()
+    global player_expenditures
+    init_day_cycle()
     player_dayCount += 1
     print(f"Day {player_dayCount}")
     print("It's a sunny day!")
     print(f"Your balance is {player_money} bucks.")
 
-    func_gameState("MakeLemonade")
-#   print(sys_gameState)
-    while dayCycle_playerLemonade <= 0:
-        func_playerMakeLemonade()
-        while player_spendings > player_money:
-            func_playerMakeLemonade()
-    func_playerDefinePrice()
+    game_state("MakeLemonade")
+#   print(sys_state)
+    while day_cycle_player_lemonade <= 0:
+        player_make_lemonade()
+        while player_expenditures > player_money:
+            player_make_lemonade()
+    player_define_price()
 
-    func_gameState("AddSugar")
-#   print(sys_gameState)
-    func_playerAddSugar()
+    game_state("AddSugar")
+#   print(sys_state)
+    player_add_sugar()
 
-    func_gameState("MakeAds")
-#   print(sys_gameState)
-    func_playerMakeAds()
+    game_state("MakeAds")
+#   print(sys_state)
+    player_make_ads()
 
-    func_calcDayResults()
+    calc_day_results()
 
-def func_playerMakeLemonade():
+
+def player_make_lemonade():
     global player_name
     global player_money
-    global player_spendings
-    global dayCycle_playerLemonade
-    global dayCycle_priceLemonade
+    global player_expenditures
+    global day_cycle_player_lemonade
+    global day_cycle_price_lemonade
 
     print(f"{player_name}, How much Lemonade would you like to make today? ")
-    print(f"Costs per glass of lemonade: {dayCycle_priceLemonade} bucks.")
+    print(f"Costs per glass of lemonade: {day_cycle_price_lemonade} bucks.")
     print(f"You have {player_money} bucks.")
-    dayCycle_playerLemonade = int(input())
-    player_spendings = math.floor((dayCycle_playerLemonade * dayCycle_priceLemonade) * 100) / 100
-    if dayCycle_playerLemonade <= 0:
+    day_cycle_player_lemonade = int(input())
+    player_expenditures = math.floor((day_cycle_player_lemonade * day_cycle_price_lemonade) * 100) / 100
+    if day_cycle_player_lemonade <= 0:
         print("How are you going to sell anything without any lemonade?")
-        return   # Loop back to start
-    elif player_spendings > player_money:
+        # Loop back to start
+    elif player_expenditures > player_money:
         print(f"You don't have enough money to make that much lemonade, {player_name}!")
-        return # Loop back to start
+        # Loop back to start
     else:
-        player_money = player_money - (float(dayCycle_playerLemonade) * dayCycle_priceLemonade)
-        math.floor(player_money * 100) / 100
-        int(dayCycle_playerLemonade)
-        print(f"You've made {dayCycle_playerLemonade} glasses of Lemonade!")
+        player_money = player_money - (float(day_cycle_player_lemonade) * day_cycle_price_lemonade)
+        player_money = math.floor(player_money * 100) / 100
+        int(day_cycle_player_lemonade)
+        print(f"You've made {day_cycle_player_lemonade} glasses of Lemonade!")
         print(f"You have {player_money} bucks left.")
 
-def func_playerDefinePrice():
+
+def player_define_price():
     global player_name
-    global dayCycle_playerPrice    
+    global day_cycle_playerPrice
 
     print(f"{player_name}, how much money would you like to charge for your lemonade?")
-    dayCycle_playerPrice = float(input())
-    if dayCycle_playerPrice >= 3.0:
-        print(f"You decided to charge your lemonade for {dayCycle_playerPrice} buc- {dayCycle_playerPrice} BUCKS?! ...that's quite steep, don't you think?")
+    day_cycle_playerPrice = float(input())
+    if day_cycle_playerPrice >= 3.0:
+        print(f"You decided to charge your lemonade for {day_cycle_playerPrice} buc- {day_cycle_playerPrice} BUCKS?! \
+                ...that's quite steep, don't you think?")
     else:
-        print(f"You decided to charge your lemonade for {dayCycle_playerPrice} bucks!")
+        print(f"You decided to charge your lemonade for {day_cycle_playerPrice} bucks!")
 
-def func_playerAddSugar():
+
+def player_add_sugar():
     global player_name
     global player_money
-    global player_spendings
-    global dayCycle_playerSugar
-    global dayCycle_priceSugar
+    global player_expenditures
+    global day_cycle_player_sugar
+    global day_cycle_price_sugar
 
     print(f"{player_name}, How many grams of sugar would you like to add to your lemonade? ")
-    print(f"Costs per gram of sugar: {dayCycle_priceSugar} bucks.")
+    print(f"Costs per gram of sugar: {day_cycle_price_sugar} bucks.")
     print(f"You have {player_money} bucks.")
-    dayCycle_playerSugar = int(input())
-    player_spendings = math.floor((dayCycle_playerLemonade * dayCycle_priceLemonade) * 100) / 100
-    if dayCycle_playerSugar == 0:
-        print("Au' naturel? Your choice!") # No loop needed
-    elif player_spendings > player_money:
+    day_cycle_player_sugar = int(input())
+    player_expenditures = math.floor((day_cycle_player_lemonade * day_cycle_price_lemonade) * 100) / 100
+    if day_cycle_player_sugar == 0:
+        print("Au' naturel? Your choice!")              # No loop needed
+    elif player_expenditures > player_money:
         print(f"You don't have enough money for that amount of sugar, {player_name}!")
-        return
-    elif dayCycle_playerSugar >= 50:
+    elif day_cycle_player_sugar >= 50:
         print("That's quite a lot! You'll give your customers a sugar rush!")
-        player_money = player_money - (float(dayCycle_playerSugar) * dayCycle_priceSugar)
-        math.floor(player_money * 100) / 100
-        int(dayCycle_playerSugar)
-        print(f"You've added {dayCycle_playerSugar} grams of Sugar to your lemonade!")
+        player_money = player_money - (float(day_cycle_player_sugar) * day_cycle_price_sugar)
+        player_money = math.floor(player_money * 100) / 100
+        int(day_cycle_player_sugar)
+        print(f"You've added {day_cycle_player_sugar} grams of Sugar to your lemonade!")
         print(f"You have {player_money} bucks left.")
     else:
-        player_money = player_money - (float(dayCycle_playerSugar) * dayCycle_priceSugar)
-        math.floor(player_money * 100) / 100
-        int(dayCycle_playerSugar)
-        print(f"You've added {dayCycle_playerSugar} grams of Sugar to your lemonade!")
+        player_money = player_money - (float(day_cycle_player_sugar) * day_cycle_price_sugar)
+        player_money = math.floor(player_money * 100) / 100
+        int(day_cycle_player_sugar)
+        print(f"You've added {day_cycle_player_sugar} grams of Sugar to your lemonade!")
         print(f"You have {player_money} bucks left.")
 
-def func_playerMakeAds():
+
+def player_make_ads():
     global player_name
     global player_money
-    global player_spendings
-    global dayCycle_playerAdverts
-    global dayCycle_priceAdverts
+    global player_expenditures
+    global day_cycle_playerAdverts
+    global day_cycle_priceAdverts
 
     print(f"{player_name}, How many advertisements would you like to put up? ")
-    print(f"Costs per advertisement: {dayCycle_priceAdverts} bucks.")
+    print(f"Costs per advertisement: {day_cycle_priceAdverts} bucks.")
     print(f"You have {player_money} bucks.")
-    dayCycle_playerAdverts = int(input())
-    player_spendings = math.floor((dayCycle_playerLemonade * dayCycle_priceLemonade) * 100) / 100
-    if dayCycle_playerAdverts == 0:
-        print("No Ads? Your choice!") # No loop needed
-    elif player_spendings > player_money:
+    day_cycle_playerAdverts = int(input())
+    player_expenditures = math.floor((day_cycle_player_lemonade * day_cycle_price_lemonade) * 100) / 100
+    if day_cycle_playerAdverts == 0:
+        print("No Ads? Your choice!")               # No loop needed
+    elif player_expenditures > player_money:
         print(f"You don't have enough money for that many ad spaces, {player_name}!")
-        return
     else:
-        player_money = player_money - (float(dayCycle_playerAdverts) * dayCycle_priceAdverts)
-        math.floor(player_money * 100) / 100
-        int(dayCycle_playerAdverts)
-        print(f"You've put up {dayCycle_playerAdverts} adverts around your town!")
+        player_money = player_money - (float(day_cycle_playerAdverts) * day_cycle_priceAdverts)
+        player_money = math.floor(player_money * 100) / 100
+        int(day_cycle_playerAdverts)
+        print(f"You've put up {day_cycle_playerAdverts} adverts around your town!")
         print(f"You have {player_money} bucks left.")
 
-def func_calcDayResults():
+
+def calc_day_results():
     global player_name
     global player_money
     global player_dayCount
-    global dayCycle_playerLemonade
-    global dayCycle_playerPrice
-    global dayCycle_playerSugar
-    global dayCycle_playerAdverts
+    global day_cycle_player_lemonade
+    global day_cycle_playerPrice
+    global day_cycle_player_sugar
+    global day_cycle_playerAdverts
 
-    dayCycle_playerProfit = 0
-    customerMultiplier = 0
+    day_cycle_player_profit = 0
+    customer_multiplier = 0
     customers = 0
 
-    if dayCycle_playerPrice <= 0.75:
-        customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerLemonade/1.5), dayCycle_playerLemonade)
-    elif dayCycle_playerPrice <= 2:
-        customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerLemonade/3), dayCycle_playerLemonade)
-    elif dayCycle_playerPrice <= 5:
-        customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerLemonade/5), dayCycle_playerLemonade/2)
+    if day_cycle_playerPrice <= 0.75:
+        customer_multiplier = customer_multiplier + random.uniform((day_cycle_player_lemonade/1.5), day_cycle_player_lemonade)
+    elif day_cycle_playerPrice <= 2:
+        customer_multiplier = customer_multiplier + random.uniform((day_cycle_player_lemonade/3), day_cycle_player_lemonade)
+    elif day_cycle_playerPrice <= 5:
+        customer_multiplier = customer_multiplier + random.uniform((day_cycle_player_lemonade/5), day_cycle_player_lemonade/2)
     else:
-        customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerLemonade/6), (dayCycle_playerLemonade/4.5))
-    
-    int(dayCycle_playerLemonade)
+        customer_multiplier = customer_multiplier + random.uniform((day_cycle_player_lemonade/6), (day_cycle_player_lemonade/4.5))
 
-    if dayCycle_playerSugar <= 5:
-        customerMultiplier = customerMultiplier - random.uniform((dayCycle_playerSugar/2), (dayCycle_playerSugar/1.5))
-    elif dayCycle_playerSugar <= 30:
-        customerMultiplier = customerMultiplier + random.uniform((dayCycle_playerSugar/1.5), dayCycle_playerSugar)
-    elif dayCycle_playerSugar > 30:
-        customerMultiplier = customerMultiplier - random.uniform((dayCycle_playerSugar/2), (dayCycle_playerSugar/1.5))
+    int(day_cycle_player_lemonade)
 
-    int(dayCycle_playerSugar)
+    if day_cycle_player_sugar <= 5:
+        customer_multiplier = customer_multiplier - random.uniform((day_cycle_player_sugar/2), (day_cycle_player_sugar/1.5))
+    elif day_cycle_player_sugar <= 30:
+        customer_multiplier = customer_multiplier + random.uniform((day_cycle_player_sugar/1.5), day_cycle_player_sugar)
+    elif day_cycle_player_sugar > 30:
+        customer_multiplier = customer_multiplier - random.uniform((day_cycle_player_sugar/2), (day_cycle_player_sugar/1.5))
 
-#   print(customerMultiplier)
+    int(day_cycle_player_sugar)
 
-    if customerMultiplier < 0:
-        customerMultiplier = 0
+#   print(customer_multiplier)
 
-    customers = int(math.floor(customerMultiplier * 100) / 100)
+    if customer_multiplier < 0:
+        customer_multiplier = 0
 
-    if customers < dayCycle_playerLemonade:
-        customers = dayCycle_playerLemonade
+    customers = int(math.floor(customer_multiplier * 100) / 100)
 
-    dayCycle_playerProfit = customers * dayCycle_playerPrice
+    if customers < day_cycle_player_lemonade:
+        customers = day_cycle_player_lemonade
 
-    player_money = player_money + dayCycle_playerProfit
+    day_cycle_player_profit = customers * day_cycle_playerPrice
+
+    player_money = player_money + day_cycle_player_profit
 
     print("*DAILY REPORT*")
-    print(f"Glasses of lemonade produced: {dayCycle_playerLemonade}")
-    print(f"Amounts of sugar used per glass: {dayCycle_playerSugar}")
-    print(f"Amount of ads booked today: {dayCycle_playerAdverts}")
-    print(f"Amount of lemonade sold: {customers} out of {dayCycle_playerLemonade}")
-    print(f"Today's profit: {dayCycle_playerProfit}")
+    print(f"Glasses of lemonade produced: {day_cycle_player_lemonade}")
+    print(f"Amounts of sugar used per glass: {day_cycle_player_sugar}")
+    print(f"Amount of ads booked today: {day_cycle_playerAdverts}")
+    print(f"Amount of lemonade sold: {customers} out of {day_cycle_player_lemonade}")
+    print(f"Today's profit: {day_cycle_player_profit}")
     print(f"Your balance: {player_money}")
 
     if player_money <= 0:
@@ -285,13 +291,14 @@ def func_calcDayResults():
         print("Game Over !")
         print(f"You've made it to Day {player_dayCount}")
         input("Press any key to return to the Title Screen...")
-        func_gameState("TitleScreen")
+        game_state("TitleScreen")
     else:
         input(f"Press any key to continue with day {player_dayCount+1}...")
-        func_gameLoop() # Reset loop
+        game_loop()             # Reset loop
+
 
 # Program loop
-if sys_gameState != "GameQuit":
-    func_gameState(sys_gameState)
+if sys_state != "GameQuit":
+    game_state(sys_state)
 else:
-    func_gameState("GameQuit")
+    game_state("GameQuit")

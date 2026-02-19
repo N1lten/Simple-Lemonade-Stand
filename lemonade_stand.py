@@ -1,5 +1,5 @@
 # Lemonade Stand
-# Written and tested with Python 3.11.2
+# Written and tested with Python 3.12.10
 # nilten.neocities.org
 
 import random
